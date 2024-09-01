@@ -1,8 +1,10 @@
-package com.meli.core.network
+package com.meli.core.network.di
 
+import com.meli.core.network.data.datasource.MarketingPlaceDataSource
+import com.meli.core.network.data.datasource.MarketingPlaceService
+import com.meli.core.network.domain.GetCategoriesUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -14,9 +16,11 @@ const val READ_TIMEOUT = 15L
 
 object NetworkModule {
 
-    val retrofitModule = module {
+    val networkModule = module {
         single { createHttpClient() }
         single { retrofitClient(get()) }
+        single { GetCategoriesUseCase(dataSource = MarketingPlaceDataSource(get())) }
+        single(createdAtStart = false) { get<Retrofit>().create(MarketingPlaceService::class.java) }
     }
 
     private fun retrofitClient(
