@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MarketingPlace"
 include(":app")
+include(":core:network")
