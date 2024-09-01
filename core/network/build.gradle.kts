@@ -29,6 +29,12 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.retrofit)
+    implementation(libs.okHttp)
+    implementation(libs.okHttpIntercepetor)
+    implementation(libs.gson)
+    implementation(libs.converterGson)
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

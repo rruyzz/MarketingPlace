@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)
+    implementation(project(":core:network"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
