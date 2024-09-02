@@ -6,7 +6,9 @@ plugins {
 android {
     namespace = "com.meli.feature.search.presentation"
     compileSdk = 34
-
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         minSdk = 24
 
