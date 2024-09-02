@@ -46,6 +46,9 @@ dependencies {
     implementation(libs.koinAndroid)
     implementation(project(":core:network"))
     implementation(project(":core:common"))
+    implementation(project(":feature:search:presentation"))
+    implementation(project(":feature:search:domain"))
+    implementation(project(":feature:search:data"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

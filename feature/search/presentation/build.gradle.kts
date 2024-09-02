@@ -34,6 +34,12 @@ android {
 
 dependencies {
 
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCore)
+    implementation(project(":feature:search:domain"))
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
