@@ -1,16 +1,13 @@
 package com.meli.core.network.domain
 
 import com.meli.core.network.data.datasource.MarketingPlaceDataSource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.meli.core.network.domain.model.CategoriesDto
 
 class GetCategoriesUseCase(
     private val dataSource: MarketingPlaceDataSource
 ) {
 
-    operator fun invoke() : Flow<String> {
-        return flow {
-            emit(dataSource.getCategories().first().id)
-        }
+    suspend operator fun invoke() : List<CategoriesDto> {
+        return dataSource.getCategories().toDomain()
     }
 }

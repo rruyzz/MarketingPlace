@@ -17,6 +17,9 @@
             <option value="$PROJECT_DIR$/feature/productdetail" />
             <option value="$PROJECT_DIR$/feature/productlist" />
             <option value="$PROJECT_DIR$/feature/search" />
+            <option value="$PROJECT_DIR$/feature/search/data" />
+            <option value="$PROJECT_DIR$/feature/search/domain" />
+            <option value="$PROJECT_DIR$/feature/search/presentation" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

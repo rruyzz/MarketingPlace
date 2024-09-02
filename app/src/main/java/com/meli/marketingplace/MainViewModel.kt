@@ -33,7 +33,7 @@ class MainViewModel(
                 _castMoviesState.emit("CastState.Error(it.message.orEmpty())")
             }
             .collect {
-                _castMoviesState.emit(it)
+                _castMoviesState.emit(it.first().toString())
             }
     }
 }
