@@ -1,4 +1,4 @@
-package com.meli.core.network.domain.model
+package com.meli.core.network.domain.category.model
 
 data class CategoriesDto(
     val id: String,

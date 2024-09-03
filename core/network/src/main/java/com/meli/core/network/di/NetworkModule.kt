@@ -2,7 +2,9 @@ package com.meli.core.network.di
 
 import com.meli.core.network.data.datasource.MarketingPlaceDataSource
 import com.meli.core.network.data.datasource.MarketingPlaceService
-import com.meli.core.network.domain.GetCategoriesUseCase
+import com.meli.core.network.domain.category.usecase.GetCategoriesUseCase
+import com.meli.core.network.domain.products.usecase.GetCategoryProductsUseCase
+import com.meli.core.network.domain.products.usecase.GetProductsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
@@ -19,7 +21,10 @@ object NetworkModule {
     val networkModule = module {
         single { createHttpClient() }
         single { retrofitClient(get()) }
-        single { GetCategoriesUseCase(dataSource = MarketingPlaceDataSource(get())) }
+        single { MarketingPlaceDataSource(get()) }
+        single { GetCategoriesUseCase(dataSource = get()) }
+        single { GetProductsUseCase(dataSource = get()) }
+        single { GetCategoryProductsUseCase(dataSource = get()) }
         single(createdAtStart = false) { get<Retrofit>().create(MarketingPlaceService::class.java) }
     }
 

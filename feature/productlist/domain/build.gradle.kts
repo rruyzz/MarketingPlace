@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.meli.feature.productdetail"
+    namespace = "com.meli.feature.productlist.domain"
     compileSdk = 34
 
     defaultConfig {
@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.koinCore)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

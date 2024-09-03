@@ -49,6 +49,9 @@ dependencies {
     implementation(project(":feature:search:presentation"))
     implementation(project(":feature:search:domain"))
     implementation(project(":feature:search:data"))
+    implementation(project(":feature:productlist:presentation"))
+    implementation(project(":feature:productlist:domain"))
+    implementation(project(":feature:productlist:data"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
