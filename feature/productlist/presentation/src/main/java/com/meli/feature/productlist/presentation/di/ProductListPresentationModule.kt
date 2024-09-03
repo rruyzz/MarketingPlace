@@ -6,6 +6,8 @@ import com.meli.feature.productlist.presentation.ProductListViewModel
 
 object ProductListPresentationModule {
     val productListPresentationModule = module {
-        viewModel { ProductListViewModel(get()) }
+        viewModel { parameters ->
+            ProductListViewModel(parameters.get(), parameters.get(), get())
+        }
     }
 }

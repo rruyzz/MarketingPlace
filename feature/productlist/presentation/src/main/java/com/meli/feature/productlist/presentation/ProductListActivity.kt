@@ -14,8 +14,10 @@ import org.koin.core.parameter.parametersOf
 class ProductListActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<ProductListViewModel> {
-        parametersOf(intent.extras?.getString("query"))
-        parametersOf(intent.extras?.getBoolean("isCategory"))
+        parametersOf(
+            intent.extras?.getString("query"),
+            intent.extras?.getBoolean("isCategory"),
+        )
     }
     private val binding: ActivityProductListBinding by lazy {
         ActivityProductListBinding.inflate(layoutInflater)

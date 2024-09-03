@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class ProductListViewModel(
+    private val query: String?,
+    private val isCategory: Boolean?,
     private val productListUseCase: ProductListUseCase
 ) : ViewModel() {
 
@@ -23,7 +25,7 @@ class ProductListViewModel(
         getProducts()
     }
     fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
-        productListUseCase("PS5")
+        productListUseCase(query.orEmpty())
             .flowOn(Dispatchers.IO)
             .onStart {
                 _categoriesState.emit(ProductState(isLoading = true))
