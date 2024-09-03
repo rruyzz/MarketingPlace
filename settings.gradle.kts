@@ -22,8 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "MarketingPlace"
 include(":app")
 include(":core:network")
-include(":feature:productlist")
-include(":feature:productdetail")
 include(":core:common")
 include(":feature:search:data")
 include(":feature:search:domain")
