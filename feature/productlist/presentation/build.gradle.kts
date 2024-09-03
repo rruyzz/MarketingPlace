@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)
     implementation(project(":feature:productlist:domain"))
+    implementation(project(":core:navigation"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

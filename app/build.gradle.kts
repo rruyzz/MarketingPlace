@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)
     implementation(project(":core:network"))
+    implementation(project(":core:navigation"))
     implementation(project(":core:common"))
     implementation(project(":feature:search:presentation"))
     implementation(project(":feature:search:domain"))

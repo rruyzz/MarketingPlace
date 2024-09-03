@@ -5,13 +5,16 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.meli.core.navigation.ProductListNavigator
 import com.meli.feature.search.presentation.databinding.ActivitySearchBinding
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<SearchViewModel>()
+    private val productNavigation by inject<ProductListNavigator>()
     private val binding: ActivitySearchBinding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
     }
@@ -34,7 +37,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun navigateToProductList(product: String) {
-        Toast.makeText(this, product, Toast.LENGTH_SHORT).show()
+        productNavigation.navigate(this,product,false)
     }
 
 

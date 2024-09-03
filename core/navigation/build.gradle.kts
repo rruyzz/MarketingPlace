@@ -4,11 +4,9 @@ plugins {
 }
 
 android {
-    namespace = "com.meli.feature.search.presentation"
+    namespace = "com.meli.core.navigation"
     compileSdk = 34
-    buildFeatures {
-        viewBinding = true
-    }
+
     defaultConfig {
         minSdk = 24
 
@@ -35,14 +33,7 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.koinAndroid)
     implementation(libs.koinCore)
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:search:domain"))
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

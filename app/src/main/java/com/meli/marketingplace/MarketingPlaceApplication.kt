@@ -8,6 +8,7 @@ import com.meli.feature.search.presentation.di.SearchPresentationModule.searchPr
 import com.meli.feature.productlist.data.di.ProductListDataModule.productListDataModule
 import com.meli.feature.productlist.domain.di.ProductListDomainModule.productDomainModule
 import com.meli.feature.productlist.presentation.di.ProductListPresentationModule.productListPresentationModule
+import com.meli.marketingplace.di.NavigatorModule.navigatorModule
 import org.koin.core.context.startKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -32,6 +33,7 @@ internal class MarketingPlaceApplication : Application() {
                     productListDataModule,
                     productDomainModule,
                     productListPresentationModule,
+                    navigatorModule,
                 )
             )
         }
