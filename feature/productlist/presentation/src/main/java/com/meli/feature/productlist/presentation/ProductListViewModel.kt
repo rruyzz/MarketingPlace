@@ -41,4 +41,8 @@ class ProductListViewModel(
             }
     }
 
+    fun onProductClick(id: String) {
+
+    }
+
 }

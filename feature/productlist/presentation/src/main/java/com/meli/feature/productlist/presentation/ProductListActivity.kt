@@ -9,6 +9,9 @@ import com.meli.feature.productlist.presentation.databinding.ActivityProductList
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.content.Context
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
+import com.meli.feature.productlist.presentation.adapter.ProductAdapter
 import org.koin.core.parameter.parametersOf
 
 class ProductListActivity : AppCompatActivity() {
@@ -32,8 +35,15 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesState.collect { state ->
-            binding.textRodolfo.text = state.productList.toString()
+            binding.productRecycleView.adapter = ProductAdapter(state.productList, ::onClick)
+            binding.productRecycleView.layoutManager = GridLayoutManager(this@ProductListActivity, 2)
+            binding.progress.isVisible = state.isLoading
         }
+    }
+
+
+    private fun onClick(id: String) {
+        viewModel.onProductClick(id)
     }
 
     companion object {
