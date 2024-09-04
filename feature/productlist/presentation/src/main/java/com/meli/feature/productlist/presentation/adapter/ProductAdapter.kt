@@ -1,15 +1,18 @@
 package com.meli.feature.productlist.presentation.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.meli.feature.productlist.domain.model.ProductModel
 import com.meli.feature.productlist.presentation.databinding.ProductItemBinding
 
 class ProductAdapter(
     private val productList: List<ProductModel>,
     var onClick: (String) -> Unit,
+    private val context: Context,
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     lateinit var binding: ProductItemBinding
@@ -33,6 +36,8 @@ class ProductAdapter(
         fun bind(product: ProductModel) {
             binding.name.text = product.title
             binding.value.text = product.price
+            Glide.with(context).load(product.thumbnail)
+                .into(binding.image)
         }
 
 

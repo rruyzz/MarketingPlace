@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation(libs.glide)
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)
     implementation(project(":feature:productlist:domain"))

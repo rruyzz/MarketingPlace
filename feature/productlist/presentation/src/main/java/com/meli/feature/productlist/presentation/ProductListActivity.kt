@@ -35,7 +35,7 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesState.collect { state ->
-            binding.productRecycleView.adapter = ProductAdapter(state.productList, ::onClick)
+            binding.productRecycleView.adapter = ProductAdapter(state.productList, ::onClick, this@ProductListActivity)
             binding.productRecycleView.layoutManager = GridLayoutManager(this@ProductListActivity, 2)
             binding.progress.isVisible = state.isLoading
         }
