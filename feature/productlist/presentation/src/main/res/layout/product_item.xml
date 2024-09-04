@@ -23,8 +23,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image"
+        android:layout_marginTop="4dp"
         android:text="R$ 150,00"
-        style="@style/TextAppearance.Material3.BodyLarge"/>
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
 
     <TextView
@@ -36,5 +37,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/value"
         android:text="Camisa de Futebol"
-        style="@style/TextAppearance.Material3.BodyMedium"/>
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
