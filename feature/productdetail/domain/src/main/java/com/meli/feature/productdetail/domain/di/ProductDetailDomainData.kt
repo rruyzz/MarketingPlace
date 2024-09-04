@@ -7,7 +7,7 @@ import com.meli.feature.productdetail.domain.usecase.ProductInfoUseCase
 
 object ProductDetailDomainData {
 
-    val productDomainModule = module {
+    val productDetailDomainModule = module {
         single { ProductDescriptionUseCase(repository = get()) }
         single { ProductInfoUseCase(repository = get()) }
         single {

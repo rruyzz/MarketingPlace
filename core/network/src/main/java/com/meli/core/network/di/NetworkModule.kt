@@ -4,6 +4,8 @@ import com.meli.core.network.data.datasource.MarketingPlaceDataSource
 import com.meli.core.network.data.datasource.MarketingPlaceService
 import com.meli.core.network.domain.category.usecase.GetCategoriesUseCase
 import com.meli.core.network.domain.products.usecase.GetCategoryProductsUseCase
+import com.meli.core.network.domain.products.usecase.GetProductDescriptionUseCase
+import com.meli.core.network.domain.products.usecase.GetProductInfoUseCase
 import com.meli.core.network.domain.products.usecase.GetProductsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,6 +27,8 @@ object NetworkModule {
         single { GetCategoriesUseCase(dataSource = get()) }
         single { GetProductsUseCase(dataSource = get()) }
         single { GetCategoryProductsUseCase(dataSource = get()) }
+        single { GetProductDescriptionUseCase(dataSource = get()) }
+        single { GetProductInfoUseCase(dataSource = get()) }
         single(createdAtStart = false) { get<Retrofit>().create(MarketingPlaceService::class.java) }
     }
 
@@ -32,7 +36,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://api.mercadolibre.com/sites/MLB/")
+            .baseUrl("https://api.mercadolibre.com/sites/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

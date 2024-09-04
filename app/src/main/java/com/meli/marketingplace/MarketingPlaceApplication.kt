@@ -2,6 +2,8 @@ package com.meli.marketingplace
 
 import android.app.Application
 import com.meli.core.network.di.NetworkModule.networkModule
+import com.meli.feature.productdetail.data.di.ProductDetailDataModule.productDetailDataModule
+import com.meli.feature.productdetail.domain.di.ProductDetailDomainData.productDetailDomainModule
 import com.meli.feature.productdetail.presentation.di.ProductDetailPresentationModule.productDetailPresentationModule
 import com.meli.feature.search.data.di.SearchDataModule.searchDataModule
 import com.meli.feature.search.domain.di.SearchDomainModule.searchDomainModule
@@ -34,6 +36,8 @@ internal class MarketingPlaceApplication : Application() {
                     productDomainModule,
                     productListPresentationModule,
                     productDetailPresentationModule,
+                    productDetailDomainModule,
+                    productDetailDataModule,
                     navigatorModule,
                 )
             )

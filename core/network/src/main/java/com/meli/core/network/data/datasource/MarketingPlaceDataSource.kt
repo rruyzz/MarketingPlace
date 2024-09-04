@@ -2,6 +2,8 @@ package com.meli.core.network.data.datasource
 
 import kotlinx.coroutines.flow.Flow
 import com.meli.core.network.data.model.CategoriesResponse
+import com.meli.core.network.data.model.ProductDescriptionResponse
+import com.meli.core.network.data.model.ProductInfoResponse
 import com.meli.core.network.data.model.ProductSearchResponse
 
 class MarketingPlaceDataSource(
@@ -17,5 +19,12 @@ class MarketingPlaceDataSource(
 
     suspend fun getCategoryProduct(category: String): ProductSearchResponse {
         return marketingPlaceService.getCategoryProduct(category)
+    }
+
+    suspend fun getProductInfo(id: String): ProductInfoResponse {
+        return marketingPlaceService.getProductInfo(id)
+    }
+    suspend fun getProductDescription(id: String): ProductDescriptionResponse {
+        return marketingPlaceService.getProductDescription(id)
     }
 }

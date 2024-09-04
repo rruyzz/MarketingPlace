@@ -7,7 +7,7 @@ import org.koin.dsl.module
 object ProductDetailPresentationModule {
     val productDetailPresentationModule = module {
         viewModel { parameters ->
-            ProductDetailViewModel(parameters.get())
+            ProductDetailViewModel(parameters.get(), get())
         }
     }
 }
