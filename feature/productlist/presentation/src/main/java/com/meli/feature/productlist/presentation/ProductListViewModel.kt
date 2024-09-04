@@ -37,7 +37,6 @@ class ProductListViewModel(
 
     private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
         productListProvider(query, isCategory)
-            .flowOn(Dispatchers.IO)
             .onStart { emitLoading(isLoading = true) }
             .onCompletion { emitLoading(isLoading = false) }
             .catch { _productListState.emit(ProductListState(errorMessage = it.message.orEmpty())) }
