@@ -12,6 +12,7 @@ import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.meli.core.navigation.ProductDetailNavigator
+import com.meli.feature.productlist.domain.model.ProductModel
 import com.meli.feature.productlist.presentation.adapter.ProductAdapter
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
@@ -40,19 +41,28 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun stateObserver() = lifecycleScope.launch {
-        viewModel.categoriesState.collect { state ->
-            binding.productRecycleView.adapter = ProductAdapter(state.productList, ::onClick, this@ProductListActivity)
-            binding.productRecycleView.layoutManager = GridLayoutManager(this@ProductListActivity, 2)
-            binding.progress.isVisible = state.isLoading
+        viewModel.productListState.collect { state ->
+            setCategoriesList(state.productList.orEmpty())
+            setLoading(state.isLoading)
         }
     }
 
     private fun actionObserver() = lifecycleScope.launch {
-        viewModel.categoriesAction.collect { action ->
-            when(action) {
+        viewModel.productListAction.collect { action ->
+            when (action) {
                 is ProductListAction.NavigateToProductDetail -> navigator(action.id)
             }
         }
+    }
+
+    private fun setCategoriesList(categoriesList: List<ProductModel>) = with(binding) {
+        productRecycleView.adapter =
+            ProductAdapter(categoriesList.orEmpty(), ::onClick, this@ProductListActivity)
+        productRecycleView.layoutManager = GridLayoutManager(this@ProductListActivity, 2)
+    }
+
+    private fun setLoading(isLoading: Boolean) = with(binding) {
+        progress.isVisible = isLoading
     }
 
     private fun navigator(id: String) {

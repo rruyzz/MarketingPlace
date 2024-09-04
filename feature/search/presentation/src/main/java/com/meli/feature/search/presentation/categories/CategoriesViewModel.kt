@@ -29,6 +29,10 @@ class CategoriesViewModel(
         getCategories()
     }
 
+    fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
+        _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
+    }
+
     private fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         getCategoriesUseCase()
             .flowOn(Dispatchers.IO)
@@ -52,9 +56,5 @@ class CategoriesViewModel(
         _categoriesState.update { currentState ->
             currentState.copy(categoriesList = categoriesList)
         }
-    }
-
-    fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
-        _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
     }
 }

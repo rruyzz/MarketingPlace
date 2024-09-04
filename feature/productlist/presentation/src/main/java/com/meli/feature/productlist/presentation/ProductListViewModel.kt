@@ -2,6 +2,7 @@ package com.meli.feature.productlist.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.meli.feature.productlist.domain.model.ProductModel
 import com.meli.feature.productlist.domain.provider.ProductListProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProductListViewModel(
@@ -20,34 +22,41 @@ class ProductListViewModel(
     private val productListProvider: ProductListProvider
 ) : ViewModel() {
 
-    private val _categoriesState = MutableStateFlow(ProductListState())
-    val categoriesState = _categoriesState.asStateFlow()
-    private val _categoriesAction = MutableSharedFlow<ProductListAction>(0)
-    val categoriesAction = _categoriesAction.asSharedFlow()
+    private val _productListState = MutableStateFlow(ProductListState())
+    val productListState = _productListState.asStateFlow()
+    private val _productListAction = MutableSharedFlow<ProductListAction>(0)
+    val productListAction = _productListAction.asSharedFlow()
 
     init {
         getProducts()
     }
 
+    fun onProductClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
+        _productListAction.emit(ProductListAction.NavigateToProductDetail(id))
+    }
+
     private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
         productListProvider(query, isCategory)
             .flowOn(Dispatchers.IO)
-            .onStart {
-                _categoriesState.emit(ProductListState(isLoading = true))
-            }
-            .onCompletion {
-            }
-            .catch {
-                _categoriesState.emit(ProductListState(errorMessage = it.message.orEmpty()))
-            }
-            .collect {
-                println(it.toString())
-                _categoriesState.emit(ProductListState(productList = it))
-            }
+            .onStart { emitLoading(isLoading = true) }
+            .onCompletion { emitLoading(isLoading = false) }
+            .catch { _productListState.emit(ProductListState(errorMessage = it.message.orEmpty())) }
+            .collect(::handleSuccess)
     }
 
-    fun onProductClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
-        _categoriesAction.emit(ProductListAction.NavigateToProductDetail(id))
+    private fun handleSuccess(categoriesList: List<ProductModel>?) {
+        emitProductList(productList = categoriesList)
     }
 
+    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
+        _productListState.update { currentState ->
+            currentState.copy(isLoading = isLoading)
+        }
+    }
+
+    private fun emitProductList(productList: List<ProductModel>?) = viewModelScope.launch {
+        _productListState.update { currentState ->
+            currentState.copy(productList = productList)
+        }
+    }
 }
