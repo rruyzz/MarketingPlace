@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:navigationIconTint="?attr/colorOnSurface"
-        app:title="Detail" />
+        app:title="Detalhe do Produto" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
@@ -31,7 +31,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imagePosterBackgroundCard"
+                android:id="@+id/productImage"
                 android:layout_width="0dp"
                 android:layout_height="234dp"
                 android:scaleType="fitXY"
@@ -41,7 +41,7 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent" />
 
             <TextView
-                android:id="@+id/titleMovie"
+                android:id="@+id/titleProduct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -52,7 +52,7 @@
                 android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagePosterBackgroundCard" />
+                app:layout_constraintTop_toBottomOf="@+id/productImage" />
 
             <LinearLayout
                 android:id="@+id/linear"
@@ -63,7 +63,7 @@
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleMovie">
+                app:layout_constraintTop_toBottomOf="@+id/titleProduct">
 
                 <TextView
                     android:id="@+id/textValue"

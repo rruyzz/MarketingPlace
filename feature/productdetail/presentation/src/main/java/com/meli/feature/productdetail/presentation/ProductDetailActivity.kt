@@ -32,9 +32,8 @@ class ProductDetailActivity : AppCompatActivity() {
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesDetailState.collect { state ->
-            binding.titleMovie.text = state.data?.title
-            binding.imagePosterBackgroundCard
-            Glide.with(this@ProductDetailActivity).load(state.data?.thumbnail).into(binding.imagePosterBackgroundCard)
+            binding.titleProduct.text = state.data?.title
+            Glide.with(this@ProductDetailActivity).load(state.data?.thumbnail).into(binding.productImage)
             binding.description.text = state.data?.description
             binding.textWarrenty.text = state.data?.warranty
             binding.textValue.text = state.data?.price
