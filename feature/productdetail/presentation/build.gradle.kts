@@ -38,6 +38,7 @@ dependencies {
 
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)
+    implementation(libs.glide)
     implementation(project(":feature:productdetail:domain"))
     implementation(project(":core:navigation"))
 

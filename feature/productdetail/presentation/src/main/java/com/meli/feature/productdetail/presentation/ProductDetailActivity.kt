@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.meli.feature.productdetail.presentation.databinding.ActivityProductDetailBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +32,12 @@ class ProductDetailActivity : AppCompatActivity() {
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesDetailState.collect { state ->
-            binding.textId.text = state.data
+            binding.titleMovie.text = state.data?.title
+            binding.imagePosterBackgroundCard
+            Glide.with(this@ProductDetailActivity).load(state.data?.thumbnail).into(binding.imagePosterBackgroundCard)
+            binding.description.text = state.data?.description
+            binding.textWarrenty.text = state.data?.warranty
+            binding.textValue.text = state.data?.price
             binding.progress.isVisible = state.isLoading
         }
     }
