@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class ProductDetailViewModel(
-    private val query: String,
+    private val id: String,
     private val providerDetail: ProductDetailProvider,
 ) : ViewModel() {
     private val _categoriesDetailState = MutableStateFlow(ProductDetailState())
@@ -24,7 +24,7 @@ class ProductDetailViewModel(
     }
 
     private fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
-        providerDetail(query)
+        providerDetail(id)
             .flowOn(Dispatchers.IO)
             .onStart { _categoriesDetailState.emit(ProductDetailState(isLoading = true)) }
             .onCompletion {}
