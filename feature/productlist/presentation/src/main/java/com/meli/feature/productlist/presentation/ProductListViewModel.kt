@@ -35,6 +35,10 @@ class ProductListViewModel(
         _productListAction.emit(ProductListAction.NavigateToProductDetail(id))
     }
 
+    fun onToolbarClick() {
+        emitNavigateBack()
+    }
+
     private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
         productListProvider(query, isCategory)
             .onStart { emitLoading(isLoading = true) }
@@ -57,5 +61,9 @@ class ProductListViewModel(
         _productListState.update { currentState ->
             currentState.copy(productList = productList)
         }
+    }
+
+    private fun emitNavigateBack() = viewModelScope.launch {
+        _productListAction.emit(ProductListAction.OnBackPressed)
     }
 }

@@ -29,12 +29,29 @@ class ProductDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         stateObserver()
+        actionObserver()
+        setToolbar()
     }
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.productDetailState.collect { state ->
             state.productDetail?.let(::setDetailView)
             setLoading(state.isLoading)
+        }
+    }
+
+    private fun actionObserver() = lifecycleScope.launch {
+        viewModel.productDetailAction.collect { action ->
+            when (action) {
+                ProductDetailAction.OnBackPressed -> onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+
+    private fun setToolbar() = with(binding) {
+        toolbar.setNavigationOnClickListener {
+            viewModel.onToolbarClick()
         }
     }
 

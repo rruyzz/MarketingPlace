@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.meli.feature.productdetail.domain.model.ProductDetailModel
 import com.meli.feature.productdetail.domain.provider.ProductDetailProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
@@ -21,8 +23,15 @@ class ProductDetailViewModel(
     private val _productDetailState = MutableStateFlow(ProductDetailState())
     val productDetailState = _productDetailState.asStateFlow()
 
+    private val _productDetailAction = MutableSharedFlow<ProductDetailAction>(0)
+    val productDetailAction = _productDetailAction.asSharedFlow()
+
     init {
         getProductDetail()
+    }
+
+    fun onToolbarClick() {
+        emitNavigateBack()
     }
 
     private fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
@@ -47,5 +56,9 @@ class ProductDetailViewModel(
         _productDetailState.update { currentState ->
             currentState.copy(productDetail = productDetail)
         }
+    }
+
+    private fun emitNavigateBack() = viewModelScope.launch {
+        _productDetailAction.emit(ProductDetailAction.OnBackPressed)
     }
 }

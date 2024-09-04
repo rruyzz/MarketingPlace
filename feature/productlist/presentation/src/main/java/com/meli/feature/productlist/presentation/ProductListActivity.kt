@@ -38,6 +38,7 @@ class ProductListActivity : AppCompatActivity() {
         setContentView(binding.root)
         stateObserver()
         actionObserver()
+        setToolbar()
     }
 
     private fun stateObserver() = lifecycleScope.launch {
@@ -51,7 +52,16 @@ class ProductListActivity : AppCompatActivity() {
         viewModel.productListAction.collect { action ->
             when (action) {
                 is ProductListAction.NavigateToProductDetail -> navigator(action.id)
+                is ProductListAction.OnBackPressed -> onBackPressedDispatcher.onBackPressed()
+
             }
+        }
+    }
+
+    private fun setToolbar() = with(binding) {
+        toolbar.setNavigationOnClickListener {
+            viewModel.onToolbarClick()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
