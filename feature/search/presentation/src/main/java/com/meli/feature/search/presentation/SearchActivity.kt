@@ -54,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
                 searchBar.setText(queryText)
                 searchView.hide()
                 viewModel.onSearchClick(queryText)
-                return@setOnEditorActionListener false
+                return@setOnEditorActionListener true
             }
         }
     }

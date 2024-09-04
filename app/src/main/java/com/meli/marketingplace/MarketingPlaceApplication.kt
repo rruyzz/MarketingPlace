@@ -40,8 +40,5 @@ internal class MarketingPlaceApplication : Application() {
     }
 
     private val appModule = module {
-        viewModel {
-            MainViewModel(get())
-        }
     }
 }
