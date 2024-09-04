@@ -6,6 +6,11 @@ import org.koin.dsl.module
 
 object ProductListDataModule {
     val productListDataModule = module {
-        single<ProductListRepository> { ProductListRepositoryImpl(getProductUseCase = get()) }
+        single<ProductListRepository> {
+            ProductListRepositoryImpl(
+                getProductUseCase = get(),
+                getCategoriesProductUseCase = get()
+            )
+        }
     }
 }

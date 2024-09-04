@@ -6,6 +6,6 @@ import com.meli.feature.productlist.presentation.ProductListActivity
 
 class ProductListNavigatorImpl : ProductListNavigator {
     override fun navigate(context: Context, query: String, isCategory: Boolean) {
-        context.startActivity(ProductListActivity.getIntent(context, query, false))
+        context.startActivity(ProductListActivity.getIntent(context, query, isCategory))
     }
 }
