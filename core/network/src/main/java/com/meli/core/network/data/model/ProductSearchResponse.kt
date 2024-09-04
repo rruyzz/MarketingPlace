@@ -10,12 +10,12 @@ data class ProductSearchResponse(
 )
 
 data class AttributesItemResponse(
-    @SerializedName("attribute_group_id") val attributeGroupId: String? = null,
+//    @SerializedName("attribute_group_id") val attributeGroupId: String? = null,
     @SerializedName("name") val name: String? = null,
-    @SerializedName("attribute_group_name") val attributeGroupName: String? = null,
-    @SerializedName("source") val source: String? = null,
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("value_id") val valueId: String? = null,
+//    @SerializedName("attribute_group_name") val attributeGroupName: String? = null,
+//    @SerializedName("source") val source: String? = null,
+//    @SerializedName("id") val id: String? = null,
+//    @SerializedName("value_id") val valueId: String? = null,
 //    @SerializedName("value_struct") val valueStruct: String? = null,
     @SerializedName("value_name") val valueName: String? = null
 )
@@ -50,7 +50,7 @@ data class ResultsItemResponse(
 //    @SerializedName("buying_mode") val buyingMode: String? = null,
 //    @SerializedName("catalog_product_id") val catalogProductId: String? = null,
     @SerializedName("title") val title: String? = null,
-//    @SerializedName("available_quantity") val availableQuantity: Int? = null,
+    @SerializedName("available_quantity") val availableQuantity: Int? = null,
 //    @SerializedName("condition") val condition: String? = null,
 //    @SerializedName("shipping") val shipping: ShippingResponse? = null,
 //    @SerializedName("category_id") val categoryId: String? = null,
@@ -58,11 +58,22 @@ data class ResultsItemResponse(
     @SerializedName("price") val price: Double? = null,
 //    @SerializedName("site_id") val siteId: String? = null,
 //    @SerializedName("official_store_id") val officialStoreId: Int? = null,
-//    @SerializedName("attributes") val attributes: List<AttributesItemResponse?>? = null,
+    @SerializedName("attributes") val attributes: List<AttributesItemResponse?>? = null,
     @SerializedName("id") val id: String? = null,
 //    @SerializedName("listing_type_id") val listingTypeId: String? = null,
 //    @SerializedName("permalink") val permalink: String? = null,
-//    @SerializedName("currency_id") val currencyId: String? = null,
+    @SerializedName("currency_id") val currencyId: String? = null,
 //    @SerializedName("accepts_mercadopago") val acceptsMercadopago: Boolean? = null
+    @SerializedName("seller") val seller: Seller? = null
+)
+
+
+data class Seller(
+
+    @field:SerializedName("nickname")
+    val nickname: String? = null,
+
+    @field:SerializedName("id")
+    val id: Int? = null
 )
 //java.lang.NumberFormatException: Expected an int but was 6402814585011704 at line 1 column 3033 path $.results[0].attributes[3].source
