@@ -1,7 +1,7 @@
 package com.meli.feature.productdetail.data.mapper
 
 import com.meli.feature.productdetail.domain.model.ProductInfoModel
-import com.meli.core.network.domain.products.model.ProductInfoDto
+import com.meli.core.network.domain.productDetail.model.ProductInfoDto
 
 fun ProductInfoDto.toInfoDomain() = ProductInfoModel(
     title = this.title,

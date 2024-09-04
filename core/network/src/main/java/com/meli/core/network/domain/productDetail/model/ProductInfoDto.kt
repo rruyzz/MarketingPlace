@@ -1,4 +1,4 @@
-package com.meli.core.network.domain.products.model
+package com.meli.core.network.domain.productDetail.model
 
 data class ProductInfoDto(
     val title: String,

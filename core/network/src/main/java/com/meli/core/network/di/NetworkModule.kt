@@ -4,8 +4,8 @@ import com.meli.core.network.data.datasource.MarketingPlaceDataSource
 import com.meli.core.network.data.datasource.MarketingPlaceService
 import com.meli.core.network.domain.category.usecase.GetCategoriesUseCase
 import com.meli.core.network.domain.products.usecase.GetCategoryProductsUseCase
-import com.meli.core.network.domain.products.usecase.GetProductDescriptionUseCase
-import com.meli.core.network.domain.products.usecase.GetProductInfoUseCase
+import com.meli.core.network.domain.productDetail.usecase.GetProductDescriptionUseCase
+import com.meli.core.network.domain.productDetail.usecase.GetProductInfoUseCase
 import com.meli.core.network.domain.products.usecase.GetProductsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
