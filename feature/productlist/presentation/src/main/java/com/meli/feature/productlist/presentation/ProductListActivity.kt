@@ -11,7 +11,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
+import com.meli.core.navigation.ProductDetailNavigator
 import com.meli.feature.productlist.presentation.adapter.ProductAdapter
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class ProductListActivity : AppCompatActivity() {
@@ -22,6 +24,9 @@ class ProductListActivity : AppCompatActivity() {
             intent.extras?.getBoolean("isCategory"),
         )
     }
+
+    private val productNavigation by inject<ProductDetailNavigator>()
+
     private val binding: ActivityProductListBinding by lazy {
         ActivityProductListBinding.inflate(layoutInflater)
     }
@@ -31,6 +36,7 @@ class ProductListActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         stateObserver()
+        actionObserver()
     }
 
     private fun stateObserver() = lifecycleScope.launch {
@@ -41,6 +47,17 @@ class ProductListActivity : AppCompatActivity() {
         }
     }
 
+    private fun actionObserver() = lifecycleScope.launch {
+        viewModel.categoriesAction.collect { action ->
+            when(action) {
+                is ProductListAction.NavigateToProductDetail -> navigator(action.id)
+            }
+        }
+    }
+
+    private fun navigator(id: String) {
+        productNavigation.navigate(this, id)
+    }
 
     private fun onClick(id: String) {
         viewModel.onProductClick(id)

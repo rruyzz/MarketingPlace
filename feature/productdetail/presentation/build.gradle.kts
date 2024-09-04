@@ -6,7 +6,9 @@ plugins {
 android {
     namespace = "com.meli.feature.productdetail.presentation"
     compileSdk = 34
-
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         minSdk = 24
 
@@ -34,9 +36,16 @@ android {
 
 dependencies {
 
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCore)
+    implementation(project(":feature:productdetail:domain"))
+    implementation(project(":core:navigation"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

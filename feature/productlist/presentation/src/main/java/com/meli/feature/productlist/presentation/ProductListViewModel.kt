@@ -18,8 +18,10 @@ class ProductListViewModel(
     private val productListProvider: ProductListProvider
 ) : ViewModel() {
 
-    private val _categoriesState = MutableSharedFlow<ProductState>(0)
+    private val _categoriesState = MutableSharedFlow<ProductListState>(0)
     val categoriesState = _categoriesState.asSharedFlow()
+    private val _categoriesAction = MutableSharedFlow<ProductListAction>(0)
+    val categoriesAction = _categoriesAction.asSharedFlow()
 
     init {
         getProducts()
@@ -28,21 +30,21 @@ class ProductListViewModel(
         productListProvider(query, isCategory)
             .flowOn(Dispatchers.IO)
             .onStart {
-                _categoriesState.emit(ProductState(isLoading = true))
+                _categoriesState.emit(ProductListState(isLoading = true))
             }
             .onCompletion {
             }
             .catch {
-                _categoriesState.emit(ProductState(errorMessage = it.message.orEmpty()))
+                _categoriesState.emit(ProductListState(errorMessage = it.message.orEmpty()))
             }
             .collect {
                 println(it.toString())
-                _categoriesState.emit(ProductState(productList = it))
+                _categoriesState.emit(ProductListState(productList = it))
             }
     }
 
-    fun onProductClick(id: String) {
-
+    fun onProductClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
+        _categoriesAction.emit(ProductListAction.NavigateToProductDetail(id))
     }
 
 }
