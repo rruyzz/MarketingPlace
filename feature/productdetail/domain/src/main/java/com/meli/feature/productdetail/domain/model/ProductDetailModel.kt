@@ -1,7 +1,7 @@
 package com.meli.feature.productdetail.domain.model
 
 
-class ProductDetail(
+class ProductDetailModel(
     val title: String,
     val description: String,
     val thumbnail: String,
