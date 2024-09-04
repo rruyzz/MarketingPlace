@@ -42,10 +42,6 @@ class CategoriesViewModel(
             }
     }
 
-    fun onResume() {
-//        if(_categoriesState.value)
-    }
-
     fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO){
         _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
     }
