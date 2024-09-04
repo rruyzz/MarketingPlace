@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.meli.feature.productlist.domain.provider.ProductListProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
@@ -18,15 +20,16 @@ class ProductListViewModel(
     private val productListProvider: ProductListProvider
 ) : ViewModel() {
 
-    private val _categoriesState = MutableSharedFlow<ProductListState>(0)
-    val categoriesState = _categoriesState.asSharedFlow()
+    private val _categoriesState = MutableStateFlow(ProductListState())
+    val categoriesState = _categoriesState.asStateFlow()
     private val _categoriesAction = MutableSharedFlow<ProductListAction>(0)
     val categoriesAction = _categoriesAction.asSharedFlow()
 
     init {
         getProducts()
     }
-    fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
+
+    private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
         productListProvider(query, isCategory)
             .flowOn(Dispatchers.IO)
             .onStart {

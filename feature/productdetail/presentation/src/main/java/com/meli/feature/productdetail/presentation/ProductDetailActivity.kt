@@ -28,13 +28,13 @@ class ProductDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         stateObserver()
-        viewModel.getProductDetail()
     }
 
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesDetailState.collect { state ->
             binding.titleProduct.text = state.data?.title
-            Glide.with(this@ProductDetailActivity).load(state.data?.thumbnail).into(binding.productImage)
+            Glide.with(this@ProductDetailActivity).load(state.data?.thumbnail)
+                .into(binding.productImage)
             binding.description.text = state.data?.description
             binding.textWarrenty.text = state.data?.warranty
             binding.textValue.text = state.data?.price

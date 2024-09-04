@@ -4,6 +4,6 @@ import com.meli.feature.search.domain.model.CategoriesModel
 
 data class CategoriesState(
     val isLoading: Boolean = false,
-    val categoriesList: List<CategoriesModel> = listOf(),
-    val errorMessage: String = String(),
+    val categoriesList: List<CategoriesModel>? = null,
+    val errorMessage: String? = null,
 )

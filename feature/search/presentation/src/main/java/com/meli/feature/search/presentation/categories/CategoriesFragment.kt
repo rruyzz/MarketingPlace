@@ -32,7 +32,6 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getCategories()
         actionObserver()
         stateObserver()
     }
@@ -40,7 +39,7 @@ class CategoriesFragment : Fragment() {
     private fun stateObserver() = lifecycleScope.launch {
         viewModel.categoriesState.collect { state ->
             binding.categoriesRecycleView.adapter =
-                CategoriesAdapter(state.categoriesList, ::onClick)
+                CategoriesAdapter(state.categoriesList.orEmpty(), ::onClick)
             binding.categoriesRecycleView.layoutManager = GridLayoutManager(requireContext(), 2)
             binding.progress.isVisible = state.isLoading
         }

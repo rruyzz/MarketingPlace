@@ -2,12 +2,10 @@ package com.meli.feature.productdetail.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.meli.feature.productdetail.domain.model.ProductDetailModel
 import com.meli.feature.productdetail.domain.provider.ProductDetailProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
@@ -18,10 +16,14 @@ class ProductDetailViewModel(
     private val query: String,
     private val providerDetail: ProductDetailProvider,
 ) : ViewModel() {
-    private val _categoriesDetailState = MutableSharedFlow<ProductDetailState>()
-    val categoriesDetailState = _categoriesDetailState.asSharedFlow()
+    private val _categoriesDetailState = MutableStateFlow(ProductDetailState())
+    val categoriesDetailState = _categoriesDetailState.asStateFlow()
 
-    fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
+    init {
+        getProductDetail()
+    }
+
+    private fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
         providerDetail(query)
             .flowOn(Dispatchers.IO)
             .onStart { _categoriesDetailState.emit(ProductDetailState(isLoading = true)) }
