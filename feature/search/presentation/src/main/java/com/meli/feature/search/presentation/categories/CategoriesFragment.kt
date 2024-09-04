@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.meli.core.navigation.ProductListNavigator
+import com.meli.feature.search.domain.model.CategoriesModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.meli.feature.search.presentation.databinding.FragmentCategoriesBinding
 import com.meli.feature.search.presentation.categories.adapter.CategoriesAdapter
@@ -36,15 +36,6 @@ class CategoriesFragment : Fragment() {
         stateObserver()
     }
 
-    private fun stateObserver() = lifecycleScope.launch {
-        viewModel.categoriesState.collect { state ->
-            binding.categoriesRecycleView.adapter =
-                CategoriesAdapter(state.categoriesList.orEmpty(), ::onClick)
-            binding.categoriesRecycleView.layoutManager = GridLayoutManager(requireContext(), 2)
-            binding.progress.isVisible = state.isLoading
-        }
-    }
-
     private fun actionObserver() = lifecycleScope.launch {
         viewModel.categoryAction.collect { action ->
             when (action) {
@@ -53,19 +44,27 @@ class CategoriesFragment : Fragment() {
         }
     }
 
+    private fun stateObserver() = lifecycleScope.launch {
+        viewModel.categoriesState.collect { state ->
+            setCategoriesList(state.categoriesList)
+            setLoading(state.isLoading)
+        }
+    }
+
+    private fun setCategoriesList(categoriesList: List<CategoriesModel>?) = with(binding) {
+        categoriesRecycleView.adapter = CategoriesAdapter(categoriesList.orEmpty(), ::onClick)
+        categoriesRecycleView.layoutManager = GridLayoutManager(requireContext(), 2)
+    }
+
+    private fun setLoading(isLoading: Boolean) = with(binding) {
+        progress.isVisible = isLoading
+    }
+
     private fun onClick(id: String) {
         viewModel.onCategoryClick(id)
     }
 
     private fun navigateToProductList(categorieId: String) {
         productNavigation.navigate(requireContext(), categorieId, true)
-    }
-
-    companion object {
-        fun newInstance(param1: String, param2: String) =
-            CategoriesFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }

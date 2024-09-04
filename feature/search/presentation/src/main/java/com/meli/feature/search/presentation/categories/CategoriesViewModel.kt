@@ -2,6 +2,7 @@ package com.meli.feature.search.presentation.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.meli.feature.search.domain.model.CategoriesModel
 import com.meli.feature.search.domain.usecase.CategoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,11 +13,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(
     private val getCategoriesUseCase: CategoriesUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _categoriesState = MutableStateFlow(CategoriesState())
     val categoriesState = _categoriesState.asStateFlow()
@@ -26,23 +28,33 @@ class CategoriesViewModel(
     init {
         getCategories()
     }
+
     private fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
         getCategoriesUseCase()
             .flowOn(Dispatchers.IO)
-            .onStart {
-                _categoriesState.emit(CategoriesState(isLoading = true))
-            }
-            .onCompletion {
-            }
-            .catch {
-                _categoriesState.emit(CategoriesState(errorMessage = it.message.orEmpty()))
-            }
-            .collect {
-                _categoriesState.emit(CategoriesState(categoriesList = it))
-            }
+            .onStart { emitLoading(true) }
+            .onCompletion { emitLoading(false) }
+            .catch { _categoriesState.emit(CategoriesState(errorMessage = it.message.orEmpty())) }
+            .collect(::handleSuccess)
     }
 
-    fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO){
+    private fun handleSuccess(categoriesList: List<CategoriesModel>?) {
+        emitCategoriesList(categoriesList = categoriesList)
+    }
+
+    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
+        _categoriesState.update { currentState ->
+            currentState.copy(isLoading = isLoading)
+        }
+    }
+
+    private fun emitCategoriesList(categoriesList: List<CategoriesModel>?) = viewModelScope.launch {
+        _categoriesState.update { currentState ->
+            currentState.copy(categoriesList = categoriesList)
+        }
+    }
+
+    fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
         _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
     }
 }
