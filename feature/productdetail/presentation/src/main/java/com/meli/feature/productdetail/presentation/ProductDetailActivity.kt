@@ -28,6 +28,7 @@ class ProductDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         stateObserver()
+        viewModel.getProductDetail()
     }
 
     private fun stateObserver() = lifecycleScope.launch {

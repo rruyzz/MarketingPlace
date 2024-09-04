@@ -11,7 +11,7 @@ class ProductDetailProvider(
     private val productDescriptionUseCase: ProductDescriptionUseCase,
 ) {
     suspend operator fun invoke(id: String): Flow<ProductDetailModel> {
-        return productInfoUseCase(id).combine(productDescriptionUseCase(id)) { info, detail ->
+        return combine(productInfoUseCase(id),productDescriptionUseCase(id)) { info, detail ->
             ProductDetailModel(
                 title = info.title,
                 description = detail.description,

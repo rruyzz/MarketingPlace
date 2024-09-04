@@ -10,15 +10,15 @@ import retrofit2.http.Query
 
 interface MarketingPlaceService {
 
-    @GET("MLB/categories")
+    @GET("sites/MLB/categories")
     suspend fun getCategories(): List<CategoriesResponse>
 
-    @GET("MLB/search")
+    @GET("sites/MLB/search")
     suspend fun getProduct(
         @Query("q") product: String? = null,
     ): ProductSearchResponse
 
-    @GET("MLB/search")
+    @GET("sites/MLB/search")
     suspend fun getCategoryProduct(
         @Query("category") category: String? = null,
     ): ProductSearchResponse
