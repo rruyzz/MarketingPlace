@@ -51,9 +51,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(project(":core:common"))
-    testImplementation ("app.cash.turbine:turbine:1.0.0")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
-    testImplementation ("org.mockito:mockito-inline:2.13.0")
+    testImplementation (libs.turbine)
+    testImplementation (libs.kotlinCoroutineTest)
+    testImplementation (libs.mockito)
+    testImplementation (libs.mockitoInline)
 
 }

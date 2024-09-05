@@ -16,6 +16,10 @@ gson = "2.8.6"
 converterGson = "2.5.0"
 lifecycle-viewmodel = "2.2.0"
 glide = "4.12.0"
+turbine = "1.0.0"
+kotlinCoroutineTest = "1.7.3"
+mockito = "4.1.0"
+mockitoInlime = "2.13.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,9 +39,15 @@ koinAndroid = { group = "io.insert-koin", name = "koin-android", version.ref = "
 koinCore = { group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel"}
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine"}
+kotlinCoroutineTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutineTest"}
+mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito"}
+mockitoInline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInlime"}
+
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
