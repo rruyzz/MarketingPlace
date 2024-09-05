@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.feature.productlist.domain.model.ProductModel
 import com.meli.feature.productlist.domain.provider.ProductListProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 class ProductListViewModel(
     private val query: String,
     private val isCategory: Boolean,
-    private val productListProvider: ProductListProvider
+    private val productListProvider: ProductListProvider,
+    private val dispatchers: CoroutineDispatcher = Dispatchers.Main,
 ) : ViewModel() {
 
     private val _productListState = MutableStateFlow(ProductListState())
@@ -31,7 +33,7 @@ class ProductListViewModel(
         getProducts()
     }
 
-    fun onProductClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun onProductClick(id: String) = viewModelScope.launch(dispatchers) {
         _productListAction.emit(ProductListAction.NavigateToProductDetail(id))
     }
 
@@ -48,7 +50,7 @@ class ProductListViewModel(
         emitNavigateBack()
     }
 
-    private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getProducts() = viewModelScope.launch(dispatchers) {
         productListProvider(query, isCategory)
             .onStart { emitLoading(isLoading = true) }
             .onCompletion { emitLoading(isLoading = false) }
@@ -64,29 +66,29 @@ class ProductListViewModel(
         emitThrowable(throwable)
     }
 
-    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
+    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch(dispatchers) {
         _productListState.update { currentState ->
             currentState.copy(isLoading = isLoading)
         }
     }
 
-    private fun emitProductList(productList: List<ProductModel>?) = viewModelScope.launch {
+    private fun emitProductList(productList: List<ProductModel>?) = viewModelScope.launch(dispatchers){
         _productListState.update { currentState ->
             currentState.copy(productList = productList)
         }
     }
 
-    private fun emitNavigateBack() = viewModelScope.launch {
+    private fun emitNavigateBack() = viewModelScope.launch(dispatchers) {
         _productListAction.emit(ProductListAction.OnBackPressed)
     }
 
-    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch(dispatchers) {
         _productListState.update { currentState ->
             currentState.copy(throwable = throwable)
         }
     }
 
-    private fun cleanThrowable() = viewModelScope.launch {
+    private fun cleanThrowable() = viewModelScope.launch(dispatchers) {
         _productListState.update { currentState ->
             currentState.copy(throwable = null)
         }
