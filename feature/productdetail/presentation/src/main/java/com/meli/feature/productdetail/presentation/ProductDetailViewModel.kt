@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.feature.productdetail.domain.model.ProductDetailModel
 import com.meli.feature.productdetail.domain.provider.ProductDetailProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class ProductDetailViewModel(
     private val id: String,
     private val providerDetail: ProductDetailProvider,
+    private val dispatchers: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
 
     private val _productDetailState = MutableStateFlow(ProductDetailState())
@@ -43,7 +45,7 @@ class ProductDetailViewModel(
         emitNavigateBackAction()
     }
 
-    private fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getProductDetail() = viewModelScope.launch(dispatchers) {
         providerDetail(id)
             .onStart { emitLoading(isLoading = true) }
             .onCompletion { emitLoading(isLoading = false) }
@@ -59,29 +61,29 @@ class ProductDetailViewModel(
         emitThrowable(throwable)
     }
 
-    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
+    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch(dispatchers) {
         _productDetailState.update { currentState ->
             currentState.copy(isLoading = isLoading)
         }
     }
 
-    private fun emitProductDetail(productDetail: ProductDetailModel) = viewModelScope.launch {
+    private fun emitProductDetail(productDetail: ProductDetailModel) = viewModelScope.launch(dispatchers) {
         _productDetailState.update { currentState ->
             currentState.copy(productDetail = productDetail)
         }
     }
 
-    private fun emitNavigateBackAction() = viewModelScope.launch {
+    private fun emitNavigateBackAction() = viewModelScope.launch(dispatchers) {
         _productDetailAction.emit(ProductDetailAction.OnBackPressed)
     }
 
-    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch(dispatchers) {
         _productDetailState.update { currentState ->
             currentState.copy(throwable = throwable)
         }
     }
 
-    private fun cleanThrowable() = viewModelScope.launch {
+    private fun cleanThrowable() = viewModelScope.launch(dispatchers) {
         _productDetailState.update { currentState ->
             currentState.copy(throwable = null)
         }
