@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.koinCore)
     implementation(project(":core:navigation"))
     implementation(project(":feature:search:domain"))
+    implementation(project(":core:common"))
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)

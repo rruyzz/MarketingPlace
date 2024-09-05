@@ -39,16 +39,29 @@ class ProductListViewModel(
         emitNavigateBack()
     }
 
+    fun onTryAgainDialogClick() {
+        cleanThrowable()
+        getProducts()
+    }
+
+    fun onCancelDialogClick() {
+        emitNavigateBack()
+    }
+
     private fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
         productListProvider(query, isCategory)
             .onStart { emitLoading(isLoading = true) }
             .onCompletion { emitLoading(isLoading = false) }
-            .catch { _productListState.emit(ProductListState(errorMessage = it.message.orEmpty())) }
+            .catch { handleError(it) }
             .collect(::handleSuccess)
     }
 
     private fun handleSuccess(categoriesList: List<ProductModel>?) {
         emitProductList(productList = categoriesList)
+    }
+
+    private fun handleError(throwable: Throwable) {
+        emitThrowable(throwable)
     }
 
     private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
@@ -65,5 +78,17 @@ class ProductListViewModel(
 
     private fun emitNavigateBack() = viewModelScope.launch {
         _productListAction.emit(ProductListAction.OnBackPressed)
+    }
+
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+        _productListState.update { currentState ->
+            currentState.copy(throwable = throwable)
+        }
+    }
+
+    private fun cleanThrowable() = viewModelScope.launch {
+        _productListState.update { currentState ->
+            currentState.copy(throwable = null)
+        }
     }
 }

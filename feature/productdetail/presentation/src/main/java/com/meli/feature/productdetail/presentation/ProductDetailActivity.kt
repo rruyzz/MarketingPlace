@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.meli.core.common.widgets.showDialogError
 import com.meli.feature.productdetail.domain.model.ProductDetailModel
 import com.meli.feature.productdetail.presentation.databinding.ActivityProductDetailBinding
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ class ProductDetailActivity : AppCompatActivity() {
         viewModel.productDetailState.collect { state ->
             state.productDetail?.let(::setDetailView)
             setLoading(state.isLoading)
+            state.throwable?.let { showDialogDefaultError() }
         }
     }
 
@@ -48,6 +50,12 @@ class ProductDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun showDialogDefaultError() {
+        showDialogError(
+            onCancelClick = { viewModel.onCancelDialogClick() },
+            onTryAgain = { viewModel.onTryAgainDialogClick() }
+        )
+    }
 
     private fun setToolbar() = with(binding) {
         toolbar.setNavigationOnClickListener {

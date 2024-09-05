@@ -11,6 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
+import com.meli.core.common.widgets.showDialogError
 import com.meli.core.navigation.ProductDetailNavigator
 import com.meli.feature.productlist.domain.model.ProductModel
 import com.meli.feature.productlist.presentation.adapter.ProductAdapter
@@ -45,6 +46,7 @@ class ProductListActivity : AppCompatActivity() {
         viewModel.productListState.collect { state ->
             setCategoriesList(state.productList.orEmpty())
             setLoading(state.isLoading)
+            state.throwable?.let { showDialogDefaultError() }
         }
     }
 
@@ -53,9 +55,14 @@ class ProductListActivity : AppCompatActivity() {
             when (action) {
                 is ProductListAction.NavigateToProductDetail -> navigator(action.id)
                 is ProductListAction.OnBackPressed -> onBackPressedDispatcher.onBackPressed()
-
             }
         }
+    }
+    private fun showDialogDefaultError() {
+        this.showDialogError(
+            onCancelClick = { viewModel.onCancelDialogClick() },
+            onTryAgain = { viewModel.onTryAgainDialogClick() }
+        )
     }
 
     private fun setToolbar() = with(binding) {

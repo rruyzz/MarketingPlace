@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.meli.core.common.widgets.showDialogError
 import com.meli.core.navigation.ProductListNavigator
 import com.meli.feature.search.domain.model.CategoriesModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,6 +41,7 @@ class CategoriesFragment : Fragment() {
         viewModel.categoryAction.collect { action ->
             when (action) {
                 is CategoriesAction.NavigateToProductList -> navigateToProductList(action.categorieId)
+                is CategoriesAction.OnBackAction -> requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -48,7 +50,15 @@ class CategoriesFragment : Fragment() {
         viewModel.categoriesState.collect { state ->
             setCategoriesList(state.categoriesList)
             setLoading(state.isLoading)
+            state.throwable?.let { showDialogDefaultError() }
         }
+    }
+
+    private fun showDialogDefaultError() {
+        requireActivity().showDialogError(
+            onCancelClick = { viewModel.onCancelDialogClick() },
+            onTryAgain = { viewModel.onTryAgainDialogClick() }
+        )
     }
 
     private fun setCategoriesList(categoriesList: List<CategoriesModel>?) = with(binding) {

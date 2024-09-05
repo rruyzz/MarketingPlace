@@ -31,19 +31,32 @@ class ProductDetailViewModel(
     }
 
     fun onToolbarClick() {
-        emitNavigateBack()
+        emitNavigateBackAction()
+    }
+
+    fun onTryAgainDialogClick() {
+        cleanThrowable()
+        getProductDetail()
+    }
+
+    fun onCancelDialogClick() {
+        emitNavigateBackAction()
     }
 
     private fun getProductDetail() = viewModelScope.launch(Dispatchers.IO) {
         providerDetail(id)
             .onStart { emitLoading(isLoading = true) }
             .onCompletion { emitLoading(isLoading = false) }
-            .catch { _productDetailState.emit(ProductDetailState(error = it.message.orEmpty())) }
+            .catch { handleError(it) }
             .collect(::handleSuccess)
     }
 
     private fun handleSuccess(productDetail: ProductDetailModel) {
         emitProductDetail(productDetail = productDetail)
+    }
+
+    private fun handleError(throwable: Throwable) {
+        emitThrowable(throwable)
     }
 
     private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
@@ -58,7 +71,19 @@ class ProductDetailViewModel(
         }
     }
 
-    private fun emitNavigateBack() = viewModelScope.launch {
+    private fun emitNavigateBackAction() = viewModelScope.launch {
         _productDetailAction.emit(ProductDetailAction.OnBackPressed)
+    }
+
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+        _productDetailState.update { currentState ->
+            currentState.copy(throwable = throwable)
+        }
+    }
+
+    private fun cleanThrowable() = viewModelScope.launch {
+        _productDetailState.update { currentState ->
+            currentState.copy(throwable = null)
+        }
     }
 }

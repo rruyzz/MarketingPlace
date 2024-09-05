@@ -5,5 +5,5 @@ import com.meli.feature.productlist.domain.model.ProductModel
 data class ProductListState(
     val isLoading: Boolean = false,
     val productList: List<ProductModel>? = null,
-    val errorMessage: String? = null,
+    val throwable: Throwable? = null,
 )

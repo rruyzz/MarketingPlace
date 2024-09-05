@@ -36,12 +36,12 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:productdetail:domain"))
+    implementation(project(":core:navigation"))
+    implementation(project(":core:common"))
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)
     implementation(libs.glide)
-    implementation(project(":feature:productdetail:domain"))
-    implementation(project(":core:navigation"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

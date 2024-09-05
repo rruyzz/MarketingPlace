@@ -29,6 +29,15 @@ class CategoriesViewModel(
         getCategories()
     }
 
+    fun onTryAgainDialogClick() {
+        cleanThrowable()
+        getCategories()
+    }
+
+    fun onCancelDialogClick() {
+        emitOnBackAction()
+    }
+
     fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
         _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
     }
@@ -38,12 +47,16 @@ class CategoriesViewModel(
             .flowOn(Dispatchers.IO)
             .onStart { emitLoading(true) }
             .onCompletion { emitLoading(false) }
-            .catch { _categoriesState.emit(CategoriesState(errorMessage = it.message.orEmpty())) }
+            .catch { handleError(it) }
             .collect(::handleSuccess)
     }
 
     private fun handleSuccess(categoriesList: List<CategoriesModel>?) {
         emitCategoriesList(categoriesList = categoriesList)
+    }
+
+    private fun handleError(throwable: Throwable) {
+        emitThrowable(throwable)
     }
 
     private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
@@ -56,5 +69,21 @@ class CategoriesViewModel(
         _categoriesState.update { currentState ->
             currentState.copy(categoriesList = categoriesList)
         }
+    }
+
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+        _categoriesState.update { currentState ->
+            currentState.copy(throwable = throwable)
+        }
+    }
+
+    private fun cleanThrowable() = viewModelScope.launch {
+        _categoriesState.update { currentState ->
+            currentState.copy(throwable = null)
+        }
+    }
+
+    private fun emitOnBackAction() = viewModelScope.launch {
+        _categoryAction.emit(CategoriesAction.OnBackAction)
     }
 }
