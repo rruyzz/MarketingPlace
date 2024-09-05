@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.feature.search.domain.model.CategoriesModel
 import com.meli.feature.search.domain.usecase.CategoriesUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(
-    private val getCategoriesUseCase: CategoriesUseCase
+    private val getCategoriesUseCase: CategoriesUseCase,
+    private val dispatchers: CoroutineDispatcher = Dispatchers.Main,
 ) : ViewModel() {
 
     private val _categoriesState = MutableStateFlow(CategoriesState())
@@ -38,13 +40,13 @@ class CategoriesViewModel(
         emitOnBackAction()
     }
 
-    fun onCategoryClick(id: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun onCategoryClick(id: String) = viewModelScope.launch(dispatchers) {
         _categoryAction.emit(CategoriesAction.NavigateToProductList(categorieId = id))
     }
 
-    private fun getCategories() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getCategories() = viewModelScope.launch() {
         getCategoriesUseCase()
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers)
             .onStart { emitLoading(true) }
             .onCompletion { emitLoading(false) }
             .catch { handleError(it) }
@@ -59,31 +61,32 @@ class CategoriesViewModel(
         emitThrowable(throwable)
     }
 
-    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch {
+    private fun emitLoading(isLoading: Boolean) = viewModelScope.launch(dispatchers) {
         _categoriesState.update { currentState ->
             currentState.copy(isLoading = isLoading)
         }
     }
 
-    private fun emitCategoriesList(categoriesList: List<CategoriesModel>?) = viewModelScope.launch {
-        _categoriesState.update { currentState ->
-            currentState.copy(categoriesList = categoriesList)
+    private fun emitCategoriesList(categoriesList: List<CategoriesModel>?) =
+        viewModelScope.launch(dispatchers) {
+            _categoriesState.update { currentState ->
+                currentState.copy(categoriesList = categoriesList)
+            }
         }
-    }
 
-    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch {
+    private fun emitThrowable(throwable: Throwable) = viewModelScope.launch(dispatchers) {
         _categoriesState.update { currentState ->
             currentState.copy(throwable = throwable)
         }
     }
 
-    private fun cleanThrowable() = viewModelScope.launch {
+    private fun cleanThrowable() = viewModelScope.launch(dispatchers) {
         _categoriesState.update { currentState ->
             currentState.copy(throwable = null)
         }
     }
 
-    private fun emitOnBackAction() = viewModelScope.launch {
+    private fun emitOnBackAction() = viewModelScope.launch(dispatchers) {
         _categoryAction.emit(CategoriesAction.OnBackAction)
     }
 }
