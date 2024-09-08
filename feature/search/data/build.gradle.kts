@@ -34,8 +34,8 @@ android {
 
 dependencies {
 
-    implementation(project(":core:network"))
-    implementation(project(":feature:search:domain"))
+    implementation(project(LocalLibs.network))
+    implementation(project(LocalLibs.searchDomain))
     implementation(libs.koinCore)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

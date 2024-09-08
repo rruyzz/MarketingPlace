@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.converterGson)
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)
-    implementation(project(":core:common"))
+    implementation(project(LocalLibs.common))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

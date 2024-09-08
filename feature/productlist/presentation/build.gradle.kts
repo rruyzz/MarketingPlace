@@ -36,9 +36,9 @@ android {
 
 dependencies {
 
-    implementation(project(":core:common"))
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:productlist:domain"))
+    implementation(project(LocalLibs.common))
+    implementation(project(LocalLibs.navigation))
+    implementation(project(LocalLibs.productListDomain))
     implementation(libs.glide)
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)

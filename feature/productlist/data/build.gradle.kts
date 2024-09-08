@@ -34,8 +34,8 @@ android {
 
 dependencies {
 
-    implementation(project(":core:network"))
-    implementation(project(":feature:productlist:domain"))
+    implementation(project(LocalLibs.network))
+    implementation(project(LocalLibs.productListDomain))
     implementation(libs.koinCore)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
