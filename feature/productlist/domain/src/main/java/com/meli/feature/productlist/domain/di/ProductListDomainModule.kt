@@ -6,7 +6,7 @@ import com.meli.feature.productlist.domain.usecase.ProductListUseCase
 import org.koin.dsl.module
 
 object ProductListDomainModule {
-    val productDomainModule = module {
+    val productListDomainModule = module {
         single { ProductListUseCase(repository = get()) }
         single { CategoryProductsUseCase(repository = get()) }
         single { ProductListProvider(productListUseCase = get(), categoryUseCase = get()) }

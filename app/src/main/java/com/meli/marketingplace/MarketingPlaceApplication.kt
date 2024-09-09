@@ -9,7 +9,7 @@ import com.meli.feature.search.data.di.SearchDataModule.searchDataModule
 import com.meli.feature.search.domain.di.SearchDomainModule.searchDomainModule
 import com.meli.feature.search.presentation.di.SearchPresentationModule.searchPresentationModule
 import com.meli.feature.productlist.data.di.ProductListDataModule.productListDataModule
-import com.meli.feature.productlist.domain.di.ProductListDomainModule.productDomainModule
+import com.meli.feature.productlist.domain.di.ProductListDomainModule.productListDomainModule
 import com.meli.feature.productlist.presentation.di.ProductListPresentationModule.productListPresentationModule
 import com.meli.marketingplace.di.NavigatorModule.navigatorModule
 import org.koin.core.context.startKoin
@@ -28,12 +28,11 @@ internal class MarketingPlaceApplication : Application() {
             modules(
                 listOf(
                     networkModule,
-                    appModule,
                     searchDataModule,
                     searchDomainModule,
                     searchPresentationModule,
                     productListDataModule,
-                    productDomainModule,
+                    productListDomainModule,
                     productListPresentationModule,
                     productDetailPresentationModule,
                     productDetailDomainModule,
@@ -42,8 +41,5 @@ internal class MarketingPlaceApplication : Application() {
                 )
             )
         }
-    }
-
-    private val appModule = module {
     }
 }
